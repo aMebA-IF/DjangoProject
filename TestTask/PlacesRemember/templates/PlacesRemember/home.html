@@ -1,0 +1,19 @@
+{% extends 'base.html' %}   
+
+{% load socialaccount%}
+{% providers_media_js %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+        {% if request.user.is_authenticated %}
+                <header>
+                        <div class="personal_information">{{user.first_name}} {{user.last_name}}</div>
+                        <button>
+                                <a href="accounts/logout">Выйти</a>
+                        </button>
+                </header>
+                <img class="avatar" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
+        {% endif %}
+
+{% endblock %}
