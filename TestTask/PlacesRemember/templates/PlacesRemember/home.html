@@ -3,9 +3,10 @@
 {% load socialaccount%}
 {% providers_media_js %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{{title}}{% endblock %}
 
 {% block content %}
+
         {% if request.user.is_authenticated %}
                 <header>
                         <div class="personal_information">{{user.first_name}} {{user.last_name}}</div>
@@ -14,6 +15,18 @@
                         </button>
                 </header>
                 <img class="avatar" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
-        {% endif %}
-
+        {% endif %} 
+        {% for p in places %}
+                <div class="alert alert-warning mt-2">
+                        <h3>{{ p.name }}</h3>
+                        <h5>{{ p.comment }}</h3>
+                        <form>
+                        {% csrf_token %}
+                        {{ form.latitude }}<br>
+                        {{ form.longitude }}<br>
+                        <div id="map"></div>
+                        </form>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7-SfT4geESAZnvD5dUfJEmRJAcyXGRY&libraries=places&callback=initMap" type="text/javascript" async defer></script>
+                </div>
+        {% endfor %}
 {% endblock %}

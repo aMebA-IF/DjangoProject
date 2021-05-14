@@ -18,7 +18,7 @@ class Profile(models.Model):
 
     class Meta:
         verbose_name = 'Профиль'
-        verbose_name_plural = 'Профиля'
+        verbose_name_plural = 'Профили'
 
     def __str__(self):
         return f"{self.user}"
@@ -26,8 +26,8 @@ class Profile(models.Model):
 class Place(models.Model):
     name = models.CharField(verbose_name='Имя места', null=False, max_length=50)
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
-    latitude = models.FloatField(verbose_name='Широта', null=False, max_length=50)
-    longitude = models.FloatField(verbose_name='Долгота', null=False, max_length=50)
+    latitude = models.DecimalField(verbose_name='Широта', max_digits=30, decimal_places=25, null=True, blank=True)
+    longitude = models.DecimalField(verbose_name='Долгота', max_digits=30, decimal_places=25, null=True, blank=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     class Meta:

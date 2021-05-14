@@ -1,0 +1,20 @@
+{% extends 'base.html' %} 
+
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    <h1>Добавить место</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.name }}<br>
+        {{ form.comment }}<br>
+        {{ form.latitude }}<br>
+        {{ form.longitude }}<br>
+        <div id="map"></div>
+        
+        <button type="submit" class="btn-success">Добавить</button>
+
+    </form>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7-SfT4geESAZnvD5dUfJEmRJAcyXGRY&libraries=places&callback=initMap" type="text/javascript" async defer></script>
+{% endblock %}
