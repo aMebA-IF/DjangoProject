@@ -1,4 +1,29 @@
 #map {
     height: 400px;
-    width: 500px;  
+    width: 100%;  
+}
+html {
+    height: 100%;
+  }
+body {
+    min-height: 100%;
+  }
+
+.home img {
+  width: 50%;
+  height: 50%;
+}
+
+.lnlg{
+  position : absolute
+}
+
+
+header .container{
+  position :relative;
+  width: 100%;
+}
+.container{
+  position :relative;
+  width: 50%;
 }

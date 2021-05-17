@@ -1,8 +1,15 @@
 {% extends 'base.html' %}   
+
 {% block title %}{{title}}{% endblock %}
 
-</head>
 {% block content %}
-    <a href="accounts/login">Войти</a>
-{% endblock %}
-</html>
+<body class="container h-100 text-center text-white bg-dark" >
+    <main class="position-absolute top-50 start-50 translate-middle">
+      <h1>Сохраните ваши воспоминания</h1>
+      <p class="lead">Добавляйте места, в которых вы побывали, и расскажите о ваших впечатлениях. Зарегестрируйтесь и войдите, чтобы продолжить.</p>
+      <p class="lead">
+        <a href="accounts/login" class="w-25 btn btn-lg btn-primary">Войти</a>
+      </p>
+    </main>
+</body>
+{% endblock %}  

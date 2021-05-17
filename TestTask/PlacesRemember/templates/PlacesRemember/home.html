@@ -1,5 +1,4 @@
 {% extends 'base.html' %}   
-
 {% load socialaccount%}
 {% providers_media_js %}
 
@@ -8,25 +7,57 @@
 {% block content %}
 
         {% if request.user.is_authenticated %}
-                <header>
-                        <div class="personal_information">{{user.first_name}} {{user.last_name}}</div>
-                        <button>
-                                <a href="accounts/logout">Выйти</a>
-                        </button>
+                <header class="p-3 bg-dark text-white">
+                        <div class="container ">
+                                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                                        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                                <li><a href="{% url 'home'%}" class="nav-link px-2 text-secondary">Домашняя</a></li>
+                                                <li><a href="{% url 'create'%}" class="nav-link px-2 text-white">Добавить место</a></li>
+                                        </ul>
+                                        <div class="text-end nav col-12 col-lg-auto px-2">
+                                                <button class="btn btn-outline-danger" onclick="window.location.href='accounts/logout'">Выйти</button>
+                                                <!-- <button class="btn btn-outline-danger"><a href="accounts/logout">Выйти</a></button> -->
+                                                <div class="personal_information nav-link px-2 text-secondary">{{user.first_name}} {{user.last_name}}</div>
+                                                
+                                                
+                                                
+                                                
+                                        </div>
+                                        <img class="avatar" width="70" height="70" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
+                                </div>
+                        </div>
                 </header>
-                <img class="avatar" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
+                
         {% endif %} 
-        {% for p in places %}
-                <div class="alert alert-warning mt-2">
+        {% if places %} 
+        <div class="container ">
+                {% for p in places %}
+                <div class="card m-3">
+                        <div class="card-body">
+                        
+                                <h5 class="card-title">{{ p.name }}</h5>
+                                <p class="card-text">{{ p.comment }}</p>
+                                <a href="{{ p.id }}/details" class="btn btn-primary">Перейти</a>
+                        </div>
+                </div>
+                {% endfor %}
+        </div>
+        {% else %}
+        <div class="container ">
+                <div class="card m-3">
+                        <div class="card-body">
+                        
+                                <h5 class="card-title">У вас нет ни одного места</h5>
+                                <a href="{% url 'create'%}" class="btn btn-primary">Добавить</a>
+                        </div>
+                </div>
+        </div>
+        {% endif %}
+
+        
+{% endblock %}
+<!-- <div class="container alert alert-warning mt-2">
                         <h3>{{ p.name }}</h3>
                         <h5>{{ p.comment }}</h3>
-                        <form>
-                        {% csrf_token %}
-                        {{ form.latitude }}<br>
-                        {{ form.longitude }}<br>
-                        <div id="map"></div>
-                        </form>
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7-SfT4geESAZnvD5dUfJEmRJAcyXGRY&libraries=places&callback=initMap" type="text/javascript" async defer></script>
-                </div>
-        {% endfor %}
-{% endblock %}
+                </div> -->
+<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->

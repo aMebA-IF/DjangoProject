@@ -5,13 +5,23 @@ from django.views.generic.edit import CreateView
 
 
 def welcome(request):
-    return render(request, 'PlacesRemember/welcome.html')
+    context = {'title': 'Добро пожаловать'}
+    return render(request, 'PlacesRemember/welcome.html', context)
+
 def home(request):
     user = User.objects.get(pk = request.user.pk)
     places = Place.objects.all().filter(profile = user.profile)
     form = PlaceForm()
     context = {'title': 'Страница пользователя', 'places': places,'form': form, }
     return render(request, 'PlacesRemember/home.html', context)
+
+def details(request, pk):
+    place = Place.objects.get(id=pk)
+    context = {
+        'place': place,
+        'title': 'Детализация кошки',
+    }
+    return render(request, 'PlacesRemember/details.html', context)
 
 def create(request):
     if request.method == 'POST':
@@ -22,9 +32,9 @@ def create(request):
             place.profile = user.profile
             place.save()
             
-            return redirect('map')
+            return redirect('home')
         else:
-             return redirect('home')
+             return redirect('welcome')
     form = PlaceForm()
     context = {'title': 'Страница добавления', 'form': form, }
     return render(request, 'PlacesRemember/create.html', context)

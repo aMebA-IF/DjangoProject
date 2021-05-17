@@ -4,17 +4,40 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block content %}
-    <h1>Добавить место</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.name }}<br>
-        {{ form.comment }}<br>
-        {{ form.latitude }}<br>
-        {{ form.longitude }}<br>
-        <div id="map"></div>
-        
-        <button type="submit" class="btn-success">Добавить</button>
+    {% if request.user.is_authenticated %}
+    <header class="p-3 bg-dark text-white">
+            <div class="container">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                    <li><a href="{% url 'home'%}" class="nav-link px-2 text-secondary">Домашняя</a></li>
+                                    <li><a href="{% url 'create'%}" class="nav-link px-2 text-white">Добавить место</a></li>
+                            </ul>
+                            <div class="text-end nav col-12 col-lg-auto px-2">
+                                    <button class="btn btn-outline-danger" onclick="window.location.href='accounts/logout'">Выйти</button>
+                                    <!-- <button class="btn btn-outline-danger"><a href="accounts/logout">Выйти</a></button> -->
+                                    <div class="personal_information nav-link px-2 text-secondary">{{user.first_name}} {{user.last_name}}</div>
+                                    
+                                    
+                                    
+                                    
+                            </div>
+                            <img class="avatar" width="70" height="70" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
+                    </div>
+            </div>
+    </header>
 
-    </form>
+    {% endif %} 
+    <div class="container p-5">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.name }}<br>
+            {{ form.comment }}<br>
+            <div class="lnlg">{{ form.latitude }}</div>
+            <div class="lnlg">{{ form.longitude }}</div>
+            <div id="map"></div>
+            
+            <button type="submit" class="btn btn-success mt-2">Добавить</button>
+        </form>
+    </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7-SfT4geESAZnvD5dUfJEmRJAcyXGRY&libraries=places&callback=initMap" type="text/javascript" async defer></script>
 {% endblock %}
