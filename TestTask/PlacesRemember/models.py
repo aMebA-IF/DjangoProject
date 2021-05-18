@@ -15,6 +15,10 @@ class Profile(models.Model):
             instance.profile.save()
         except ObjectDoesNotExist:
             Profile.objects.create(user=instance)
+    
+    @property
+    def places(self):
+        return Place.objects.filter(profile = self)
 
     class Meta:
         verbose_name = 'Профиль'
