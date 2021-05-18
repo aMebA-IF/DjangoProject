@@ -3,15 +3,76 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block content %}
-<body class="container d-flex align-items-center h-100 text-center text-white bg-dark" >
-    <main>
-      <div class="row">
-        <div class="alert alert-success col-md-12">
-            <h4>{{ place.name }}</h4>
-            <p>Порода: {{ place.comment }}</p>
-        </div>
-    </div>
-    </main>
+          {% if request.user.is_authenticated %}
+                <header class="p-3 bg-dark text-white">
+                        <div class="container ">
+                                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                                        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                                <li><a href="{% url 'home'%}" class="nav-link px-2 text-secondary">Домашняя</a></li>
+                                                <li><a href="{% url 'create'%}" class="nav-link px-2 text-white">Добавить место</a></li>
+                                        </ul>
+                                        <div class="text-end nav col-12 col-lg-auto px-2">
+                                                <button class="btn btn-outline-danger" onclick="window.location.href='accounts/logout'">Выйти</button>
+                                                <!-- <button class="btn btn-outline-danger"><a href="accounts/logout">Выйти</a></button> -->
+                                                <div class="personal_information nav-link px-2 text-secondary">{{user.first_name}} {{user.last_name}}</div>
+                                        </div>
+                                        <img class="avatar" width="70" height="70" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
+                                </div>
+                        </div>
+                </header>
+                
+        {% endif %} 
+<body class="container text-center text-white bg-dark" >
+    {% if request.user.is_authenticated %}
+                <div class="container">
+                        <form class="" method="POST">
+                                {% csrf_token %}
+                                <div class="formDescription"><h1>Ваше воспоминание</h1></div>
+                                <input type="text" name="name" value="{{place.name}}" class="form-control" placeholder="Введите название места"/>
+                                <textarea name="comment" class="form-control" placeholder="Добавьте описание">{{place.comment}}</textarea>
+                                <input type="text" name="lat" value="{{place.latitude}}" id="id_latitude" class="lnlg"/>
+                                <input type="text" name="lng" value="{{place.longitude}}" id="id_longitude" class="lnlg"/>
+                                <div id="map"></div>
+                        </form>
+                </div>
+        {% endif %}
+        <script>
+            function updateCoordinates(lat, lng) {
+                document.getElementById('id_latitude').value = lat;
+                document.getElementById('id_longitude').value = lng;
+              }
+              
+              function initMap() {
+                var map, marker;
+                var myLatlng = {
+                  lat: 56.00435778741845,
+                  lng: 92.76696590524162
+                };
+            
+                if (String(document.getElementById('id_latitude').value).length == 0){
+                  document.getElementById('id_latitude').value = myLatlng.lat;
+                  document.getElementById('id_longitude').value = myLatlng.lng;
+                }
+            
+                else{
+                  myLatlng.lat = parseFloat(String(document.getElementById('id_latitude').value).replace(',','.'));
+                  myLatlng.lng = parseFloat(String(document.getElementById('id_longitude').value).replace(',','.'));
+                }
+            
+                map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 10,
+                  center: myLatlng
+                });
+                
+                marker = new google.maps.Marker({
+                  position: myLatlng,
+                  map: map,
+                  draggable: false
+                });   
+                map.panTo(myLatlng);
+              }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7-SfT4geESAZnvD5dUfJEmRJAcyXGRY&libraries=places&callback=initMap" type="text/javascript" async defer></script>
 </body>
 {% endblock %}  
 

@@ -6,12 +6,20 @@ function updateCoordinates(lat, lng) {
   function initMap() {
     var map, marker;
     var myLatlng = {
-      lat: 55.74,
-      lng: 37.63
+      lat: 56.00435778741845,
+      lng: 92.76696590524162
     };
-    document.getElementById('id_latitude').value = myLatlng.lat;
-    document.getElementById('id_longitude').value = myLatlng.lng;
-    
+
+    if (String(document.getElementById('id_latitude').value).length == 0){
+      document.getElementById('id_latitude').value = myLatlng.lat;
+      document.getElementById('id_longitude').value = myLatlng.lng;
+    }
+
+    else{
+      myLatlng.lat = parseFloat(String(document.getElementById('id_latitude').value).replace(',','.'));
+      myLatlng.lng = parseFloat(String(document.getElementById('id_longitude').value).replace(',','.'));
+    }
+
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
       center: myLatlng

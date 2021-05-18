@@ -27,6 +27,7 @@
     </header>
 
     {% endif %} 
+    <script src="static/js/script.js"></script>
     <div class="container p-5">
         <form method="POST">
             {% csrf_token %}
@@ -40,4 +41,5 @@
         </form>
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7-SfT4geESAZnvD5dUfJEmRJAcyXGRY&libraries=places&callback=initMap" type="text/javascript" async defer></script>
+    
 {% endblock %}

@@ -18,10 +18,6 @@
                                                 <button class="btn btn-outline-danger" onclick="window.location.href='accounts/logout'">Выйти</button>
                                                 <!-- <button class="btn btn-outline-danger"><a href="accounts/logout">Выйти</a></button> -->
                                                 <div class="personal_information nav-link px-2 text-secondary">{{user.first_name}} {{user.last_name}}</div>
-                                                
-                                                
-                                                
-                                                
                                         </div>
                                         <img class="avatar" width="70" height="70" src='{{ user.socialaccount_set.all.0.get_avatar_url }}'>
                                 </div>
@@ -38,6 +34,7 @@
                                 <h5 class="card-title">{{ p.name }}</h5>
                                 <p class="card-text">{{ p.comment }}</p>
                                 <a href="{{ p.id }}/details" class="btn btn-primary">Перейти</a>
+                                <a href="{{ p.id }}/edit" class="btn btn-primary">Изменить</a>
                         </div>
                 </div>
                 {% endfor %}
